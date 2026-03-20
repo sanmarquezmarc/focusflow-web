@@ -540,6 +540,7 @@
 
     let selectedCategoryColor = '#dbeafe';
     let contextMenu = null;
+    let lastKnownRemoteTime = 0;
 
     // ---- SYNC INDICATOR ----
     function setSyncStatus(status) {
@@ -553,12 +554,13 @@
     async function loadData() {
       // Try Supabase first
       try {
-        const { data, error } = await db.from('focusflow_data').select('data').eq('id', 1).single();
+        const { data, error } = await db.from('focusflow_data').select('data, updated_at').eq('id', 1).single();
         if (error) throw error;
         const appData = data.data;
         if (appData && Object.keys(appData).length > 0) {
           applyData(appData);
           localStorage.setItem('focusflow-data', JSON.stringify(appData));
+          lastKnownRemoteTime = new Date(data.updated_at).getTime();
           setSyncStatus('ok');
           return;
         }
@@ -573,6 +575,23 @@
       } catch (err) {
         console.error('Error loading from localStorage:', err);
       }
+    }
+
+    async function checkForUpdates() {
+      try {
+        const { data, error } = await db.from('focusflow_data').select('data, updated_at').eq('id', 1).single();
+        if (error) throw error;
+        if (data && data.data) {
+          const remoteTime = new Date(data.updated_at).getTime();
+          if (remoteTime > lastKnownRemoteTime) {
+            applyData(data.data);
+            localStorage.setItem('focusflow-data', JSON.stringify(data.data));
+            lastKnownRemoteTime = remoteTime;
+            renderTasks(); renderStats(); renderDrafts(); renderCategoryButtons();
+            setSyncStatus('ok');
+          }
+        }
+      } catch(err) { /* silently ignore polling errors */ }
     }
 
     function applyData(data) {
@@ -607,6 +626,7 @@
         const { error } = await db.from('focusflow_data')
           .upsert({ id: 1, data: toSave, updated_at: new Date().toISOString() });
         if (error) throw error;
+        lastKnownRemoteTime = Date.now();
         setSyncStatus('ok');
       } catch (err) {
         console.warn('Could not sync to Supabase:', err);
@@ -1126,6 +1146,7 @@
     }
 
     init();
+    setInterval(checkForUpdates, 30000); // detecta cambios de otros dispositivos
     setInterval(saveData, 30000);
     setInterval(() => {
       const now = new Date(), today = getToday();
