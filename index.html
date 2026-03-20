@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FocusFlow</title>
   <style>
     * {
@@ -37,9 +37,9 @@
       border-bottom: 1px solid #e5e7eb;
       display: flex;
       align-items: center;
-      padding: 0 16px 0 32px;
+      padding: 0 32px;
+      -webkit-app-region: drag;
       z-index: 1000;
-      justify-content: space-between;
     }
 
     .app-header-text {
@@ -47,26 +47,6 @@
       font-weight: 600;
       color: #1a365d;
     }
-
-    .hamburger-btn {
-      display: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 8px;
-      color: #1a365d;
-      font-size: 20px;
-    }
-
-    .sidebar-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
-      z-index: 1500;
-    }
-
-    .sidebar-overlay.show { display: block; }
 
     .container {
       display: flex;
@@ -82,8 +62,6 @@
       padding: 16px 0;
       display: flex;
       flex-direction: column;
-      flex-shrink: 0;
-      transition: transform 0.3s ease;
     }
 
     .sidebar-nav {
@@ -130,7 +108,6 @@
       flex: 1;
       overflow-y: auto;
       padding: 32px;
-      -webkit-overflow-scrolling: touch;
     }
 
     .panel {
@@ -197,7 +174,6 @@
       color: #1a365d;
       font-family: inherit;
       transition: all 0.2s;
-      -webkit-appearance: none;
     }
 
     .form-input:focus,
@@ -240,7 +216,6 @@
       cursor: pointer;
       transition: all 0.2s;
       font-family: inherit;
-      -webkit-tap-highlight-color: transparent;
     }
 
     .btn-primary {
@@ -248,7 +223,9 @@
       color: white;
     }
 
-    .btn-primary:hover { opacity: 0.9; }
+    .btn-primary:hover {
+      opacity: 0.9;
+    }
 
     .btn-secondary {
       background: #f8fafc;
@@ -256,7 +233,9 @@
       border: 1px solid #e5e7eb;
     }
 
-    .btn-secondary:hover { background: #f1f5f9; }
+    .btn-secondary:hover {
+      background: #f1f5f9;
+    }
 
     .btn-danger {
       background: transparent;
@@ -267,7 +246,9 @@
       cursor: pointer;
     }
 
-    .btn-danger:hover { opacity: 0.7; }
+    .btn-danger:hover {
+      opacity: 0.7;
+    }
 
     .btn-small {
       padding: 6px 12px;
@@ -321,7 +302,9 @@
       align-items: flex-start;
     }
 
-    .task-card-left { flex: 1; }
+    .task-card-left {
+      flex: 1;
+    }
 
     .task-card-title {
       font-size: 14px;
@@ -353,7 +336,6 @@
       background: white;
       color: #1a365d;
       cursor: pointer;
-      -webkit-appearance: none;
     }
 
     .task-status-select:focus {
@@ -376,10 +358,25 @@
       border: 1px solid #e5e7eb;
     }
 
-    .badge-priority-alta { background: rgba(239,68,68,0.12); color: #ef4444; }
-    .badge-priority-media { background: rgba(234,179,8,0.12); color: #eab308; }
-    .badge-priority-baja { background: rgba(34,197,94,0.12); color: #22c55e; }
-    .badge-imprevista { background: #fed7aa; color: #ea580c; }
+    .badge-priority-alta {
+      background: rgba(239, 68, 68, 0.12);
+      color: #ef4444;
+    }
+
+    .badge-priority-media {
+      background: rgba(234, 179, 8, 0.12);
+      color: #eab308;
+    }
+
+    .badge-priority-baja {
+      background: rgba(34, 197, 94, 0.12);
+      color: #22c55e;
+    }
+
+    .badge-imprevista {
+      background: #fed7aa;
+      color: #ea580c;
+    }
 
     /* EMPTY STATE */
     .empty-state {
@@ -446,12 +443,16 @@
       color: #1a365d;
       position: relative;
       transition: all 0.2s;
-      -webkit-tap-highlight-color: transparent;
     }
 
-    .calendar-day:hover { background: #f1f5f9; }
+    .calendar-day:hover {
+      background: #f1f5f9;
+    }
 
-    .calendar-day.selected { background: #1a365d; color: white; }
+    .calendar-day.selected {
+      background: #1a365d;
+      color: white;
+    }
 
     .calendar-day.task-indicator::after {
       content: '';
@@ -463,7 +464,9 @@
       border-radius: 50%;
     }
 
-    .calendar-day.selected.task-indicator::after { background: white; }
+    .calendar-day.selected.task-indicator::after {
+      background: white;
+    }
 
     .calendar-day.other-month {
       color: #cbd5e1;
@@ -479,7 +482,9 @@
       display: none;
     }
 
-    .day-tasks-panel.active { display: block; }
+    .day-tasks-panel.active {
+      display: block;
+    }
 
     .day-tasks-title {
       font-size: 14px;
@@ -494,7 +499,6 @@
       gap: 16px;
       height: 100%;
       overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
     }
 
     .kanban-column {
@@ -523,7 +527,10 @@
       margin-bottom: 12px;
     }
 
-    .kanban-cards { flex: 1; overflow-y: auto; }
+    .kanban-cards {
+      flex: 1;
+      overflow-y: auto;
+    }
 
     .kanban-card {
       background: white;
@@ -535,8 +542,14 @@
       transition: all 0.2s;
     }
 
-    .kanban-card:active { cursor: grabbing; opacity: 0.7; }
-    .kanban-card:hover { box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .kanban-card:active {
+      cursor: grabbing;
+      opacity: 0.7;
+    }
+
+    .kanban-card:hover {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
     .kanban-card-title {
       font-size: 13px;
@@ -552,7 +565,9 @@
       font-size: 11px;
     }
 
-    .kanban-column.drag-over { background: #f1f5f9; }
+    .kanban-column.drag-over {
+      background: #f1f5f9;
+    }
 
     /* EISENHOWER STYLES */
     .eisenhower-grid {
@@ -569,14 +584,40 @@
       min-height: 300px;
     }
 
-    .eisenhower-quadrant.urgent-important { border-color: #ef4444; }
-    .eisenhower-quadrant.important { border-color: #3b82f6; }
-    .eisenhower-quadrant.urgent { border-color: #eab308; }
-    .eisenhower-quadrant.neither { border-color: #9ca3af; }
+    .eisenhower-quadrant.urgent-important {
+      border-color: #ef4444;
+    }
 
-    .eisenhower-title { font-size: 13px; font-weight: 600; color: #1a365d; margin-bottom: 8px; }
-    .eisenhower-subtitle { font-size: 11px; color: #64748b; margin-bottom: 16px; }
-    .eisenhower-tasks { display: flex; flex-direction: column; gap: 12px; }
+    .eisenhower-quadrant.important {
+      border-color: #3b82f6;
+    }
+
+    .eisenhower-quadrant.urgent {
+      border-color: #eab308;
+    }
+
+    .eisenhower-quadrant.neither {
+      border-color: #9ca3af;
+    }
+
+    .eisenhower-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a365d;
+      margin-bottom: 8px;
+    }
+
+    .eisenhower-subtitle {
+      font-size: 11px;
+      color: #64748b;
+      margin-bottom: 16px;
+    }
+
+    .eisenhower-tasks {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
 
     .eisenhower-task {
       background: #f8fafc;
@@ -586,11 +627,22 @@
       font-size: 13px;
     }
 
-    .eisenhower-task-title { color: #1a365d; font-weight: 500; margin-bottom: 4px; }
-    .eisenhower-task-meta { color: #64748b; font-size: 11px; }
+    .eisenhower-task-title {
+      color: #1a365d;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .eisenhower-task-meta {
+      color: #64748b;
+      font-size: 11px;
+    }
 
     /* POMODORO STYLES */
-    .pomodoro-container { max-width: 672px; margin: 0 auto; }
+    .pomodoro-container {
+      max-width: 672px;
+      margin: 0 auto;
+    }
 
     .timer-card {
       background: #f8fafc;
@@ -612,7 +664,9 @@
       margin-bottom: 24px;
     }
 
-    .timer-mode-badge.break { background: #22c55e; }
+    .timer-mode-badge.break {
+      background: #22c55e;
+    }
 
     .timer-display {
       font-size: 64px;
@@ -630,7 +684,9 @@
       margin-bottom: 24px;
     }
 
-    .timer-controls .btn { padding: 12px 32px; }
+    .timer-controls .btn {
+      padding: 12px 32px;
+    }
 
     .preset-buttons {
       display: flex;
@@ -651,7 +707,10 @@
       transition: all 0.2s;
     }
 
-    .preset-btn:hover { border-color: #1a365d; color: #1a365d; }
+    .preset-btn:hover {
+      border-color: #1a365d;
+      color: #1a365d;
+    }
 
     .stats-grid {
       display: grid;
@@ -667,11 +726,23 @@
       text-align: center;
     }
 
-    .stat-label { font-size: 12px; color: #64748b; margin-bottom: 8px; }
-    .stat-value { font-size: 30px; font-weight: 700; color: #1a365d; }
+    .stat-label {
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 30px;
+      font-weight: 700;
+      color: #1a365d;
+    }
 
     /* EMAIL STYLES */
-    .email-container { max-width: 768px; margin: 0 auto; }
+    .email-container {
+      max-width: 768px;
+      margin: 0 auto;
+    }
 
     .email-card {
       background: white;
@@ -681,7 +752,17 @@
       margin-bottom: 24px;
     }
 
-    .email-card.config { background: #f8fafc; }
+    .email-card.config {
+      background: #f8fafc;
+    }
+
+    .email-field {
+      margin-bottom: 16px;
+    }
+
+    .email-field:last-child {
+      margin-bottom: 0;
+    }
 
     .email-preview {
       background: #f8fafc;
@@ -699,10 +780,22 @@
       overflow-y: auto;
     }
 
-    .email-actions { display: flex; gap: 8px; margin-bottom: 32px; }
+    .email-actions {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
 
-    .drafts-section { margin-top: 32px; }
-    .drafts-title { font-size: 14px; font-weight: 600; color: #1a365d; margin-bottom: 16px; }
+    .drafts-section {
+      margin-top: 32px;
+    }
+
+    .drafts-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a365d;
+      margin-bottom: 16px;
+    }
 
     .draft-item {
       background: white;
@@ -712,40 +805,87 @@
       margin-bottom: 12px;
     }
 
-    .draft-meta { display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px; }
-    .draft-to { font-size: 12px; color: #64748b; font-weight: 500; }
-    .draft-subject { font-size: 13px; color: #1a365d; font-weight: 600; margin-bottom: 8px; }
-    .draft-date { font-size: 11px; color: #94a3b8; }
-    .draft-content { font-size: 12px; color: #64748b; max-height: 120px; overflow: hidden; line-height: 1.4; }
+    .draft-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 8px;
+    }
+
+    .draft-to {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .draft-subject {
+      font-size: 13px;
+      color: #1a365d;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .draft-date {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    .draft-content {
+      font-size: 12px;
+      color: #64748b;
+      max-height: 120px;
+      overflow: hidden;
+      line-height: 1.4;
+    }
 
     /* MODAL STYLES */
     .modal-overlay {
       display: none;
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.5);
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
       z-index: 2000;
       align-items: center;
       justify-content: center;
-      padding: 16px;
     }
 
-    .modal-overlay.show { display: flex; }
+    .modal-overlay.show {
+      display: flex;
+    }
 
     .modal {
       background: white;
       border-radius: 8px;
       padding: 24px;
-      width: 100%;
-      max-width: 400px;
-      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+      min-width: 400px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
     }
 
-    .modal-header { font-size: 16px; font-weight: 600; color: #1a365d; margin-bottom: 20px; }
-    .modal-body { margin-bottom: 24px; }
-    .modal-footer { display: flex; gap: 12px; justify-content: flex-end; }
+    .modal-header {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a365d;
+      margin-bottom: 20px;
+    }
 
-    .color-picker { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .modal-body {
+      margin-bottom: 24px;
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .color-picker {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
 
     .color-option {
       width: 32px;
@@ -756,7 +896,9 @@
       transition: all 0.2s;
     }
 
-    .color-option:hover { transform: scale(1.1); }
+    .color-option:hover {
+      transform: scale(1.1);
+    }
 
     /* TOAST NOTIFICATIONS */
     .toast-notification {
@@ -768,25 +910,48 @@
       padding: 12px 20px;
       border-radius: 6px;
       font-size: 13px;
-      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
       z-index: 3000;
       animation: slideIn 0.3s ease-out;
-      max-width: calc(100vw - 48px);
     }
 
     @keyframes slideIn {
-      from { transform: translateX(400px); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
     }
 
     /* SCROLLBAR */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
 
     /* SMART FILTERS */
-    .smart-filters { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+    .smart-filters {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
 
     .filter-btn {
       padding: 8px 12px;
@@ -799,10 +964,19 @@
       transition: all 0.2s;
     }
 
-    .filter-btn.active { background: #1a365d; color: white; border-color: #1a365d; }
+    .filter-btn.active {
+      background: #1a365d;
+      color: white;
+      border-color: #1a365d;
+    }
 
     /* TAGS */
-    .tags-container { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .tags-container {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
 
     .tag-pill {
       display: inline-block;
@@ -815,17 +989,58 @@
       border: 1px solid transparent;
     }
 
-    .tag-pill:hover { opacity: 0.8; transform: scale(1.05); }
-    .tag-pill.selected { border: 1px solid #1a365d; box-shadow: 0 0 0 2px rgba(26,54,93,0.1); }
+    .tag-pill:hover {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
 
-    .tags-selector { margin-top: 8px; }
-    .tags-input-row { display: flex; gap: 8px; align-items: center; margin-top: 8px; }
-    .tags-input-row input { flex: 1; }
+    .tag-pill.selected {
+      border: 1px solid #1a365d;
+      box-shadow: 0 0 0 2px rgba(26, 54, 93, 0.1);
+    }
+
+    .tags-selector {
+      margin-top: 8px;
+    }
+
+    .tags-input-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .tags-input-row input {
+      flex: 1;
+    }
+
+    /* REMINDER INDICATOR */
+    .reminder-bell {
+      display: inline-block;
+      margin-right: 4px;
+      font-size: 12px;
+    }
 
     /* ATTACHMENTS */
-    .attachments-section { margin-top: 12px; padding-top: 12px; border-top: 1px solid #f1f5f9; }
+    .attachments-section {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #f1f5f9;
+    }
 
-    .attachments-list { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .attachment-icon {
+      display: inline-block;
+      margin-right: 4px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .attachments-list {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
 
     .attachment-item {
       display: inline-block;
@@ -839,7 +1054,10 @@
       transition: all 0.2s;
     }
 
-    .attachment-item:hover { background: #f1f5f9; border-color: #1a365d; }
+    .attachment-item:hover {
+      background: #f1f5f9;
+      border-color: #1a365d;
+    }
 
     /* CONTEXT MENU */
     .context-menu {
@@ -847,92 +1065,50 @@
       background: white;
       border: 1px solid #e5e7eb;
       border-radius: 8px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
       padding: 16px;
       z-index: 5000;
-      min-width: 280px;
-      max-width: 320px;
+      min-width: 320px;
+      max-width: 400px;
     }
 
-    .context-menu-title { font-size: 12px; color: #64748b; font-weight: 600; margin-bottom: 12px; text-transform: uppercase; }
-    .context-menu-form { display: flex; flex-direction: column; gap: 12px; }
+    .context-menu-title {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 600;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .context-menu-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
     .context-menu-form .form-input,
-    .context-menu-form .form-select { font-size: 13px; padding: 8px 12px; }
-    .context-menu-form .form-label { font-size: 11px; margin-bottom: 4px; }
-
-    #hidden-file-input { display: none; }
-
-    /* MOBILE RESPONSIVE */
-    @media (max-width: 768px) {
-      body { padding-top: 56px; overflow: auto; }
-
-      .hamburger-btn { display: block; }
-
-      .container { height: calc(100vh - 56px); }
-
-      .sidebar {
-        position: fixed;
-        top: 56px;
-        left: 0;
-        bottom: 0;
-        z-index: 1600;
-        transform: translateX(-100%);
-        width: 220px;
-        box-shadow: 4px 0 12px rgba(0,0,0,0.15);
-      }
-
-      .sidebar.open { transform: translateX(0); }
-
-      .main-content { padding: 16px; overflow-y: auto; }
-
-      .form-grid { grid-template-columns: 1fr; }
-      .form-grid-full { grid-column: 1; }
-
-      .eisenhower-grid { grid-template-columns: 1fr; }
-
-      .kanban-container { gap: 12px; padding-bottom: 16px; }
-      .kanban-column { flex: 0 0 240px; }
-
-      .stats-grid { grid-template-columns: 1fr 1fr; }
-
-      .timer-display { font-size: 48px; }
-      .timer-card { padding: 24px; }
-
-      .task-card { flex-direction: column; gap: 12px; }
-      .task-card-right { margin-left: 0; }
-
-      .modal { max-width: 100%; }
-
-      .context-menu { min-width: 260px; max-width: calc(100vw - 32px); }
-
-      .calendar-grid { gap: 4px; }
-      .calendar-day { font-size: 11px; }
-      .calendar-day-header { font-size: 10px; padding: 4px; }
-
-      .page-title { font-size: 20px; }
-
-      .day-tasks-panel { padding: 16px; }
+    .context-menu-form .form-select {
+      font-size: 13px;
+      padding: 8px 12px;
     }
 
-    @media (max-width: 480px) {
-      .app-header { padding: 0 12px; }
-      .app-header-text { font-size: 13px; }
-      .main-content { padding: 12px; }
-      .calendar-card { padding: 12px; }
-      .form-container { padding: 16px; }
+    .context-menu-form .form-label {
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+
+    #hidden-file-input {
+      display: none;
     }
   </style>
 </head>
 <body>
   <div class="app-header">
     <div class="app-header-text">Bienvenido a tu panel, Santino.</div>
-    <button class="hamburger-btn" onclick="toggleSidebar()">☰</button>
   </div>
 
-  <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
-
   <div class="container">
-    <div class="sidebar" id="sidebar">
+    <div class="sidebar">
       <div class="sidebar-nav">
         <button class="nav-item active" data-view="tareas" onclick="switchView('tareas')">
           <span class="nav-icon">✓</span>
@@ -999,27 +1175,27 @@
 
             <div class="form-group form-grid-full">
               <div class="checkbox-group">
-                <input type="checkbox" id="task-imprevista" style="width:16px;height:16px;">
-                <label for="task-imprevista" style="margin-bottom:0;">Imprevista</label>
+                <input type="checkbox" id="task-imprevista" style="width: 16px; height: 16px;">
+                <label for="task-imprevista" style="margin-bottom: 0;">Imprevista</label>
               </div>
             </div>
 
             <div class="form-group form-grid-full">
               <div class="checkbox-group">
-                <input type="checkbox" id="task-reminder-enabled" style="width:16px;height:16px;">
-                <label for="task-reminder-enabled" style="margin-bottom:0;">Recordatorio diario</label>
+                <input type="checkbox" id="task-reminder-enabled" style="width: 16px; height: 16px;">
+                <label for="task-reminder-enabled" style="margin-bottom: 0;">Recordatorio diario</label>
               </div>
-              <input type="time" id="task-reminder-time" class="form-input" style="margin-top:8px;display:none;">
+              <input type="time" id="task-reminder-time" class="form-input" style="margin-top: 8px; display: none;">
             </div>
 
             <div class="form-group form-grid-full">
               <label class="form-label">Etiquetas</label>
               <div class="tags-container" id="task-tags-selector"></div>
-              <div class="tags-input-row" id="tag-add-row" style="display:none;">
-                <input type="text" id="new-tag-input" class="form-input" placeholder="Nueva etiqueta" style="flex:1;">
+              <div class="tags-input-row" id="tag-add-row" style="display: none;">
+                <input type="text" id="new-tag-input" class="form-input" placeholder="Nueva etiqueta" style="flex: 1;">
                 <button class="btn btn-secondary btn-small" onclick="addNewTag()">Agregar</button>
               </div>
-              <button class="btn btn-secondary btn-small" onclick="toggleTagInput()" style="margin-top:8px;">+ Etiqueta</button>
+              <button class="btn btn-secondary btn-small" onclick="toggleTagInput()" style="margin-top: 8px;">+ Etiqueta</button>
             </div>
 
             <div class="form-group form-grid-full">
@@ -1030,7 +1206,7 @@
             </div>
 
             <div class="form-group form-grid-full">
-              <button class="btn btn-primary" onclick="addTask()" style="width:100%;">Agregar Tarea</button>
+              <button class="btn btn-primary" onclick="addTask()" style="width: 100%;">Agregar Tarea</button>
             </div>
           </div>
         </div>
@@ -1042,7 +1218,7 @@
         </div>
 
         <div class="category-filters">
-          <div id="category-buttons" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+          <div id="category-buttons" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
           <button class="category-btn category-btn-add" onclick="showAddCategoryModal()" title="Agregar categoría">+</button>
         </div>
 
@@ -1069,14 +1245,16 @@
 
         <div class="day-tasks-panel" id="day-tasks-panel">
           <div class="day-tasks-title" id="day-tasks-title"></div>
-          <div id="cal-quick-add" style="margin-bottom:16px;padding:16px;background:white;border:1px solid #e5e7eb;border-radius:8px;">
-            <div style="display:flex;gap:8px;margin-bottom:8px;">
-              <input type="text" id="cal-task-title" class="form-input" placeholder="Nueva tarea..." style="flex:1;">
-              <input type="time" id="cal-task-time" class="form-input" value="09:00" style="width:100px;">
+
+          <!-- Quick add form -->
+          <div id="cal-quick-add" style="margin-bottom: 16px; padding: 16px; background: white; border: 1px solid #e5e7eb; border-radius: 8px;">
+            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+              <input type="text" id="cal-task-title" class="form-input" placeholder="Nueva tarea..." style="flex: 1;">
+              <input type="time" id="cal-task-time" class="form-input" value="09:00" style="width: 100px;">
             </div>
-            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-              <select id="cal-task-category" class="form-select" style="flex:1;min-width:120px;"></select>
-              <select id="cal-task-priority" class="form-select" style="flex:1;min-width:100px;">
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <select id="cal-task-category" class="form-select" style="flex: 1;"></select>
+              <select id="cal-task-priority" class="form-select" style="flex: 1;">
                 <option value="baja">Baja</option>
                 <option value="media" selected>Media</option>
                 <option value="alta">Alta</option>
@@ -1084,6 +1262,7 @@
               <button class="btn btn-primary btn-small" onclick="addTaskFromCalendar()">Agregar</button>
             </div>
           </div>
+
           <div id="day-tasks-list"></div>
         </div>
       </div>
@@ -1113,12 +1292,13 @@
               <button class="btn btn-secondary" onclick="resetTimer()">Reiniciar</button>
             </div>
             <div class="preset-buttons">
-              <button class="preset-btn" onclick="setTimerPreset(25,'Concentración')">25 min</button>
-              <button class="preset-btn" onclick="setTimerPreset(50,'Sesión Larga')">50 min</button>
-              <button class="preset-btn" onclick="setTimerPreset(5,'Descanso Corto')">5 min</button>
-              <button class="preset-btn" onclick="setTimerPreset(15,'Descanso Largo')">15 min</button>
+              <button class="preset-btn" onclick="setTimerPreset(25, 'Concentración')">25 min</button>
+              <button class="preset-btn" onclick="setTimerPreset(50, 'Sesión Larga')">50 min</button>
+              <button class="preset-btn" onclick="setTimerPreset(5, 'Descanso Corto')">5 min</button>
+              <button class="preset-btn" onclick="setTimerPreset(15, 'Descanso Largo')">15 min</button>
             </div>
           </div>
+
           <div class="stats-grid">
             <div class="stat-card">
               <div class="stat-label">Completadas Hoy</div>
@@ -1137,42 +1317,45 @@
         <h1 class="page-title">Email</h1>
         <div class="email-container">
           <div class="email-card config">
-            <div class="form-group" style="margin-bottom:12px;">
+            <div class="form-group" style="margin-bottom: 12px;">
               <label class="form-label">Clave de API (Anthropic)</label>
-              <div style="display:flex;gap:8px;">
-                <input type="password" id="api-key-input" class="form-input" placeholder="sk-..." style="flex:1;">
+              <div style="display: flex; gap: 8px;">
+                <input type="password" id="api-key-input" class="form-input" placeholder="sk-..." style="flex: 1;">
                 <button class="btn btn-secondary btn-small" onclick="saveApiKey()">Guardar</button>
               </div>
             </div>
           </div>
 
           <div class="email-card">
-            <div class="form-group" style="margin-bottom:16px;">
+            <div class="form-group">
               <label class="form-label">Para</label>
               <input type="email" id="email-to" class="form-input" placeholder="destinatario@ejemplo.com">
             </div>
-            <div class="form-group" style="margin-bottom:16px;">
+
+            <div class="form-group">
               <label class="form-label">Asunto</label>
               <input type="text" id="email-subject" class="form-input" placeholder="Asunto del email">
             </div>
+
             <div class="form-group">
               <label class="form-label">Descripción</label>
               <textarea id="email-description" class="form-textarea" placeholder="Descripción para generar el email"></textarea>
             </div>
-            <button class="btn btn-primary" onclick="generateEmail()" id="generate-btn" style="width:100%;margin-top:16px;">Generar con IA</button>
+
+            <button class="btn btn-primary" onclick="generateEmail()" id="generate-btn" style="width: 100%; margin-top: 16px;">Generar con IA</button>
           </div>
 
-          <div class="email-card" id="preview-card" style="display:none;">
-            <div class="form-label" style="margin-bottom:12px;">Vista Previa</div>
+          <div class="email-card" id="preview-card" style="display: none;">
+            <div class="form-label" style="margin-bottom: 12px;">Vista Previa</div>
             <div class="email-preview" id="email-preview"></div>
             <div class="email-actions">
-              <button class="btn btn-primary btn-small" onclick="copyEmail()">Copiar</button>
-              <button class="btn btn-secondary btn-small" onclick="saveEmailDraft()">Guardar borrador</button>
+              <button class="btn btn-secondary btn-small" onclick="copyEmail()">Copiar</button>
+              <button class="btn btn-secondary btn-small" onclick="saveEmailDraft()">Guardar Borrador</button>
             </div>
           </div>
 
-          <div class="drafts-section" id="drafts-section" style="display:none;">
-            <div class="drafts-title">Borradores</div>
+          <div class="drafts-section" id="drafts-section" style="display: none;">
+            <div class="drafts-title">Borradores Guardados</div>
             <div id="drafts-list"></div>
           </div>
         </div>
@@ -1180,23 +1363,25 @@
     </div>
   </div>
 
-  <!-- ADD CATEGORY MODAL -->
-  <div class="modal-overlay" id="add-category-modal">
+  <!-- MODALS -->
+  <div id="add-category-modal" class="modal-overlay">
     <div class="modal">
-      <div class="modal-header">Nueva Categoría</div>
+      <div class="modal-header">Agregar Nueva Categoría</div>
       <div class="modal-body">
-        <div class="form-group" style="margin-bottom:16px;">
+        <div class="form-group">
           <label class="form-label">Nombre</label>
           <input type="text" id="new-category-name" class="form-input" placeholder="Nombre de la categoría">
         </div>
-        <div class="form-label">Color</div>
-        <div class="color-picker">
-          <div class="color-option" data-color="#dbeafe" style="background:#dbeafe;border:2px solid #1a365d;" onclick="selectCategoryColor('#dbeafe')"></div>
-          <div class="color-option" data-color="#fed7aa" style="background:#fed7aa;" onclick="selectCategoryColor('#fed7aa')"></div>
-          <div class="color-option" data-color="#bbf7d0" style="background:#bbf7d0;" onclick="selectCategoryColor('#bbf7d0')"></div>
-          <div class="color-option" data-color="#fce7f3" style="background:#fce7f3;" onclick="selectCategoryColor('#fce7f3')"></div>
-          <div class="color-option" data-color="#ddd6fe" style="background:#ddd6fe;" onclick="selectCategoryColor('#ddd6fe')"></div>
-          <div class="color-option" data-color="#fecaca" style="background:#fecaca;" onclick="selectCategoryColor('#fecaca')"></div>
+        <div class="form-group">
+          <label class="form-label">Color</label>
+          <div class="color-picker">
+            <div class="color-option" data-color="#dbeafe" onclick="selectCategoryColor('#dbeafe')" style="background-color: #dbeafe;"></div>
+            <div class="color-option" data-color="#fed7aa" onclick="selectCategoryColor('#fed7aa')" style="background-color: #fed7aa;"></div>
+            <div class="color-option" data-color="#fecaca" onclick="selectCategoryColor('#fecaca')" style="background-color: #fecaca;"></div>
+            <div class="color-option" data-color="#bbf7d0" onclick="selectCategoryColor('#bbf7d0')" style="background-color: #bbf7d0;"></div>
+            <div class="color-option" data-color="#ddd6fe" onclick="selectCategoryColor('#ddd6fe')" style="background-color: #ddd6fe;"></div>
+            <div class="color-option" data-color="#fce7f3" onclick="selectCategoryColor('#fce7f3')" style="background-color: #fce7f3;"></div>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
@@ -1207,9 +1392,13 @@
   </div>
 
   <script>
-    // ============================================================
-    // WEB VERSION — uses localStorage instead of fs/Electron
-    // ============================================================
+    const { ipcRenderer } = require('electron');
+    const fs = require('fs');
+    const path = require('path');
+    const os = require('os');
+    const https = require('https');
+
+    const dataPath = path.join(os.homedir(), '.focusflow-data.json');
 
     const defaultCategories = [
       { id: 'kyas', name: 'KYAS', color: '#dbeafe' },
@@ -1233,44 +1422,48 @@
       selectedSmartFilter: 'inbox',
       currentMonth: new Date(),
       selectedDay: null,
-      stats: { completed: 0, pomodoros: 0 },
+      stats: {
+        completed: 0,
+        pomodoros: 0
+      },
       timer: {
-        minutes: 25, seconds: 0,
-        isRunning: false, interval: null, mode: 'Concentración'
+        minutes: 25,
+        seconds: 0,
+        isRunning: false,
+        interval: null,
+        mode: 'Concentración'
       },
       draggedTask: null,
       apiKey: '',
       emailDrafts: [],
-      formAttachments: [],
-      currentEmail: null
+      formAttachments: []
     };
 
     let selectedCategoryColor = '#dbeafe';
     let contextMenu = null;
 
-    // ---- PERSISTENCE: localStorage ----
     function loadData() {
       try {
-        const raw = localStorage.getItem('focusflow-data');
-        if (!raw) return;
-        const data = JSON.parse(raw);
-        state.tasks = data.tasks || [];
-        state.categories = data.categories || [...defaultCategories];
-        state.tags = data.tags || [...defaultTags];
-        state.stats = data.stats || { completed: 0, pomodoros: 0 };
-        state.apiKey = data.apiKey || '';
-        state.emailDrafts = data.emailDrafts || [];
+        if (fs.existsSync(dataPath)) {
+          const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+          state.tasks = data.tasks || [];
+          state.categories = data.categories || defaultCategories;
+          state.tags = data.tags || defaultTags;
+          state.stats = data.stats || { completed: 0, pomodoros: 0 };
+          state.apiKey = data.apiKey || '';
+          state.emailDrafts = data.emailDrafts || [];
 
-        state.tasks.forEach(task => {
-          if (!task.importance) task.importance = 'important';
-          if (!task.urgency) task.urgency = 'urgent';
-          if (!task.status) task.status = 'pending';
-          if (!task.tags) task.tags = [];
-          if (!task.attachments) task.attachments = [];
-          if (!task.reminder) task.reminder = { enabled: false, time: '08:00' };
-        });
+          state.tasks.forEach(task => {
+            if (!task.importance) task.importance = 'important';
+            if (!task.urgency) task.urgency = 'urgent';
+            if (!task.status) task.status = 'pending';
+            if (!task.tags) task.tags = [];
+            if (!task.attachments) task.attachments = [];
+            if (!task.reminder) task.reminder = { enabled: false, time: '08:00' };
+          });
 
-        document.getElementById('api-key-input').value = state.apiKey;
+          document.getElementById('api-key-input').value = state.apiKey;
+        }
       } catch (err) {
         console.error('Error loading data:', err);
       }
@@ -1278,22 +1471,12 @@
 
     function saveData() {
       try {
-        const toSave = {
-          tasks: state.tasks,
-          categories: state.categories,
-          tags: state.tags,
-          stats: state.stats,
-          apiKey: state.apiKey,
-          emailDrafts: state.emailDrafts
-        };
-        localStorage.setItem('focusflow-data', JSON.stringify(toSave));
+        fs.writeFileSync(dataPath, JSON.stringify(state, null, 2));
       } catch (err) {
         console.error('Error saving data:', err);
-        showToast('⚠️ Error al guardar. Puede que el almacenamiento esté lleno.');
       }
     }
 
-    // ---- NOTIFICATIONS ----
     function showToast(message) {
       const toast = document.createElement('div');
       toast.className = 'toast-notification';
@@ -1305,7 +1488,7 @@
     function playNotificationSound() {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const notes = [523.25, 659.25, 783.99];
+        const notes = [523.25, 659.25, 783.99]; // C5, E5, G5 - pleasant chime
         notes.forEach((freq, i) => {
           const osc = audioCtx.createOscillator();
           const gain = audioCtx.createGain();
@@ -1318,7 +1501,9 @@
           osc.start(audioCtx.currentTime + i * 0.15);
           osc.stop(audioCtx.currentTime + i * 0.15 + 0.5);
         });
-      } catch (e) {}
+      } catch (e) {
+        console.log('No se pudo reproducir sonido:', e);
+      }
     }
 
     function showNotification(title, body) {
@@ -1330,33 +1515,19 @@
       }
     }
 
-    // ---- MOBILE SIDEBAR ----
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      const overlay = document.getElementById('sidebar-overlay');
-      sidebar.classList.toggle('open');
-      overlay.classList.toggle('show');
-    }
-
-    function closeSidebar() {
-      document.getElementById('sidebar').classList.remove('open');
-      document.getElementById('sidebar-overlay').classList.remove('show');
-    }
-
-    // ---- NAVIGATION ----
     function switchView(view) {
       document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
       document.getElementById(`${view}-view`).classList.add('active');
+
       document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
       document.querySelector(`[data-view="${view}"]`).classList.add('active');
-      closeSidebar();
+
       if (view === 'calendario') renderCalendar();
       if (view === 'kanban') renderKanban();
       if (view === 'eisenhower') renderEisenhower();
       if (view === 'pomodoro') renderStats();
     }
 
-    // ---- DATE HELPERS ----
     function getToday() {
       const d = new Date();
       return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
@@ -1371,67 +1542,6 @@
       return new Date(year, month - 1, day);
     }
 
-    // ---- FILE ATTACHMENTS (Web: FileReader → base64) ----
-    function triggerFileInput() {
-      document.getElementById('hidden-file-input').click();
-    }
-
-    function handleFileSelect(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        state.formAttachments.push({
-          name: file.name,
-          type: file.type,
-          data: e.target.result   // base64 data URL
-        });
-        renderFormAttachmentsList();
-        showToast('Archivo adjuntado');
-      };
-      reader.readAsDataURL(file);
-      event.target.value = '';
-    }
-
-    function renderFormAttachmentsList() {
-      const container = document.getElementById('form-attachments-list');
-      container.innerHTML = state.formAttachments.map((att, idx) => `
-        <div class="attachment-item">
-          📄 ${escapeHtml(att.name)}
-          <span onclick="removeFormAttachment(${idx})" style="margin-left:4px;cursor:pointer;color:#ef4444;">✕</span>
-        </div>
-      `).join('');
-    }
-
-    function removeFormAttachment(index) {
-      state.formAttachments.splice(index, 1);
-      renderFormAttachmentsList();
-    }
-
-    function openAttachment(taskId, attIndex) {
-      const task = state.tasks.find(t => t.id === taskId);
-      if (!task || !task.attachments[attIndex]) return;
-      const att = task.attachments[attIndex];
-
-      if (att.type === 'application/pdf' || att.type.startsWith('image/')) {
-        const win = window.open('', '_blank');
-        win.document.write(`
-          <html><head><title>${att.name}</title></head>
-          <body style="margin:0;">
-            <iframe src="${att.data}" style="width:100%;height:100vh;border:none;"></iframe>
-          </body></html>
-        `);
-      } else {
-        // For text/other files: download
-        const a = document.createElement('a');
-        a.href = att.data;
-        a.download = att.name;
-        a.click();
-      }
-    }
-
-    // ---- TASKS ----
     function addTask() {
       const title = document.getElementById('task-title').value.trim();
       const date = document.getElementById('task-date').value || getToday();
@@ -1444,14 +1554,49 @@
 
       if (!title) return;
 
+      const taskId = Date.now();
+      const attachmentsDir = path.join(os.homedir(), '.focusflow-attachments');
+      const taskDir = path.join(attachmentsDir, taskId.toString());
+      let finalAttachments = [];
+
+      // Move attachments to task directory
+      if (state.formAttachments.length > 0) {
+        try {
+          fs.mkdirSync(taskDir, { recursive: true });
+          finalAttachments = state.formAttachments.map(att => {
+            try {
+              const fileName = path.basename(att.path);
+              const finalPath = path.join(taskDir, fileName);
+              fs.copyFileSync(att.path, finalPath);
+              return { name: att.name, path: finalPath, type: att.type };
+            } catch (err) {
+              console.error('Error copying attachment:', err);
+              return att;
+            }
+          });
+        } catch (err) {
+          console.error('Error creating task directory:', err);
+          finalAttachments = state.formAttachments;
+        }
+      }
+
       const task = {
-        id: Date.now(),
-        title, date, time, category, priority,
-        importance: 'important', urgency: 'urgent',
-        isImprevista, status: 'pending',
+        id: taskId,
+        title,
+        date,
+        time,
+        category,
+        priority,
+        importance: 'important',
+        urgency: 'urgent',
+        isImprevista,
+        status: 'pending',
         tags: getSelectedTaskTags(),
-        attachments: [...state.formAttachments],
-        reminder: { enabled: reminderEnabled, time: reminderTime },
+        attachments: finalAttachments,
+        reminder: {
+          enabled: reminderEnabled,
+          time: reminderTime
+        },
         createdAt: new Date().toISOString()
       };
 
@@ -1481,10 +1626,16 @@
     function updateTaskStatus(taskId, newStatus) {
       const task = state.tasks.find(t => t.id === taskId);
       if (!task) return;
+
       const prevStatus = task.status;
       task.status = newStatus;
-      if (newStatus === 'completed' && prevStatus !== 'completed') state.stats.completed++;
-      else if (newStatus !== 'completed' && prevStatus === 'completed') state.stats.completed = Math.max(0, state.stats.completed - 1);
+
+      if (newStatus === 'completed' && prevStatus !== 'completed') {
+        state.stats.completed++;
+      } else if (newStatus !== 'completed' && prevStatus === 'completed') {
+        state.stats.completed = Math.max(0, state.stats.completed - 1);
+      }
+
       saveData();
       renderTasks();
       renderKanban();
@@ -1492,6 +1643,8 @@
 
     function getTasksForCategory(categoryId) {
       let tasks = state.tasks;
+
+      // Apply smart filter first
       if (state.selectedSmartFilter === 'today') {
         const today = getToday();
         tasks = tasks.filter(t => t.date === today && t.status !== 'completed');
@@ -1502,10 +1655,15 @@
           const taskDate = parseDateString(t.date);
           return taskDate >= today && taskDate <= next7 && t.status !== 'completed';
         });
-      } else {
+      } else if (state.selectedSmartFilter === 'inbox') {
         tasks = tasks.filter(t => t.status !== 'completed');
       }
-      if (categoryId !== 'all') tasks = tasks.filter(t => t.category === categoryId);
+
+      // Then apply category filter
+      if (categoryId !== 'all') {
+        tasks = tasks.filter(t => t.category === categoryId);
+      }
+
       return tasks;
     }
 
@@ -1517,28 +1675,162 @@
       renderTasks();
     }
 
+    function toggleTagInput() {
+      const row = document.getElementById('tag-add-row');
+      row.style.display = row.style.display === 'none' ? 'flex' : 'none';
+      if (row.style.display === 'flex') {
+        document.getElementById('new-tag-input').focus();
+      }
+    }
+
+    function addNewTag() {
+      const input = document.getElementById('new-tag-input');
+      const name = input.value.trim();
+      if (!name) return;
+
+      const id = name.toLowerCase().replace(/\s+/g, '-');
+      const colorIndex = state.tags.length % tagColors.length;
+      state.tags.push({ id, name, color: tagColors[colorIndex] });
+      input.value = '';
+      saveData();
+      renderTagsSelector();
+      renderTagsSelector();
+    }
+
+    function renderTagsSelector() {
+      const container = document.getElementById('task-tags-selector');
+      container.innerHTML = state.tags.map(tag => `
+        <div class="tag-pill" data-tag-id="${tag.id}" style="background-color: ${tag.color}; color: ${getContrastColor(tag.color)};"
+             onclick="toggleTagSelection('${tag.id}')">${tag.name}</div>
+      `).join('');
+    }
+
+    function toggleTagSelection(tagId) {
+      const pill = document.querySelector(`[data-tag-id="${tagId}"]`);
+      pill.classList.toggle('selected');
+    }
+
+    function getSelectedTaskTags() {
+      return Array.from(document.querySelectorAll('#task-tags-selector .tag-pill.selected'))
+        .map(el => el.getAttribute('data-tag-id'));
+    }
+
+    function clearSelectedTags() {
+      document.querySelectorAll('#task-tags-selector .tag-pill').forEach(el => {
+        el.classList.remove('selected');
+      });
+    }
+
+    function getContrastColor(hexColor) {
+      const hex = hexColor.replace('#', '');
+      const r = parseInt(hex.substr(0, 2), 16);
+      const g = parseInt(hex.substr(2, 2), 16);
+      const b = parseInt(hex.substr(4, 2), 16);
+      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+      return brightness > 155 ? '#1a365d' : '#ffffff';
+    }
+
+    function triggerFileInput() {
+      document.getElementById('hidden-file-input').click();
+    }
+
+    function handleFileSelect(event) {
+      const files = event.target.files;
+      if (files.length === 0) return;
+
+      const file = files[0];
+      const attachmentsDir = path.join(os.homedir(), '.focusflow-attachments');
+      const taskDirName = 'temp-' + Date.now();
+      const taskDir = path.join(attachmentsDir, taskDirName);
+
+      try {
+        fs.mkdirSync(taskDir, { recursive: true });
+        // Copy from the file input's temporary location
+        const fileName = file.name;
+        const targetPath = path.join(taskDir, fileName);
+
+        // Read file from electron temp and write to our directory
+        const fileData = fs.readFileSync(file.path);
+        fs.writeFileSync(targetPath, fileData);
+
+        state.formAttachments.push({
+          name: fileName,
+          path: targetPath,
+          type: file.type,
+          tempDir: taskDir
+        });
+
+        renderFormAttachmentsList();
+        showToast('Archivo adjuntado');
+      } catch (err) {
+        console.error('Error attaching file:', err);
+        showToast('Error al adjuntar archivo');
+      }
+
+      event.target.value = '';
+    }
+
+    function renderFormAttachmentsList() {
+      const container = document.getElementById('form-attachments-list');
+      container.innerHTML = state.formAttachments.map((att, idx) => `
+        <div class="attachment-item">
+          📄 ${escapeHtml(att.name)}
+          <span onclick="removeFormAttachment(${idx})" style="margin-left: 4px; cursor: pointer; color: #ef4444;">✕</span>
+        </div>
+      `).join('');
+    }
+
+    function removeFormAttachment(index) {
+      state.formAttachments.splice(index, 1);
+      renderFormAttachmentsList();
+    }
+
+    function moveAttachmentToTask(taskId, attachment) {
+      const attachmentsDir = path.join(os.homedir(), '.focusflow-attachments');
+      const taskDir = path.join(attachmentsDir, taskId.toString());
+      try {
+        fs.mkdirSync(taskDir, { recursive: true });
+        const targetPath = path.join(taskDir, path.basename(attachment.path));
+        fs.copyFileSync(attachment.path, targetPath);
+        return { name: attachment.name, path: targetPath, type: attachment.type };
+      } catch (err) {
+        console.error('Error moving attachment:', err);
+        return attachment;
+      }
+    }
+
+    function openAttachment(filePath) {
+      const { shell } = require('electron');
+      shell.openPath(filePath).catch(err => {
+        showToast('No se pudo abrir el archivo');
+      });
+    }
+
     function renderReminderIndicator(task) {
       return task.reminder && task.reminder.enabled ? '🔔 ' : '';
     }
 
     function renderTagPills(tags) {
       if (!tags || tags.length === 0) return '';
-      return `<div class="tags-container" style="margin-top:4px;">
+      return `<div class="tags-container" style="margin-top: 4px;">
         ${tags.map(tagId => {
           const tag = state.tags.find(t => t.id === tagId);
           if (!tag) return '';
-          return `<div class="tag-pill" style="background-color:${tag.color};color:${getContrastColor(tag.color)};">${tag.name}</div>`;
+          return `<div class="tag-pill" style="background-color: ${tag.color}; color: ${getContrastColor(tag.color)};">${tag.name}</div>`;
         }).join('')}
       </div>`;
     }
 
     function renderCategoryButtons() {
       const container = document.getElementById('category-buttons');
-      container.innerHTML = state.categories.map(cat => `
-        <button class="category-btn ${state.selectedCategory === cat.id ? 'active' : ''}" onclick="selectCategory('${cat.id}')">
+      const buttons = state.categories.map(cat => `
+        <button class="category-btn ${state.selectedCategory === cat.id ? 'active' : ''}"
+                onclick="selectCategory('${cat.id}')">
           ${cat.name}
         </button>
       `).join('');
+
+      container.innerHTML = buttons;
     }
 
     function selectCategory(categoryId) {
@@ -1547,21 +1839,15 @@
       renderTasks();
     }
 
-    function renderAttachmentsForTask(task) {
-      if (!task.attachments || task.attachments.length === 0) return '';
-      const items = task.attachments.map((att, idx) =>
-        `<div class="attachment-item" onclick="openAttachment(${task.id}, ${idx})">📄 ${escapeHtml(att.name)}</div>`
-      ).join('');
-      return `<div class="attachments-section"><div class="attachments-list">${items}</div></div>`;
-    }
-
     function renderTasks() {
       const container = document.getElementById('task-list');
       const tasks = getTasksForCategory(state.selectedCategory);
+
       if (tasks.length === 0) {
         container.innerHTML = '<div class="empty-state">No hay tareas en esta categoría.</div>';
         return;
       }
+
       container.innerHTML = tasks.map(task => `
         <div class="task-card">
           <div class="task-card-left">
@@ -1572,10 +1858,16 @@
               <span class="badge badge-category">${getCategoryName(task.category)}</span>
               <span class="badge badge-priority-${task.priority}">${task.priority}</span>
               ${task.isImprevista ? '<span class="badge badge-imprevista">Imprevista</span>' : ''}
-              ${task.attachments && task.attachments.length > 0 ? `<span>📎 ${task.attachments.length}</span>` : ''}
+              ${task.attachments && task.attachments.length > 0 ? `<span style="cursor: pointer;" title="Adjuntos">📎 ${task.attachments.length}</span>` : ''}
             </div>
             ${renderTagPills(task.tags)}
-            ${renderAttachmentsForTask(task)}
+            ${task.attachments && task.attachments.length > 0 ? `
+              <div class="attachments-section">
+                <div class="attachments-list">
+                  ${task.attachments.map(att => `<div class="attachment-item" onclick="openAttachment('${att.path.replace(/\\/g, '\\\\')}')">📄 ${escapeHtml(att.name)}</div>`).join('')}
+                </div>
+              </div>
+            ` : ''}
           </div>
           <div class="task-card-right">
             <select class="task-status-select" onchange="updateTaskStatus(${task.id}, this.value)">
@@ -1595,56 +1887,6 @@
       return cat ? cat.name : categoryId;
     }
 
-    // ---- TAGS ----
-    function toggleTagInput() {
-      const row = document.getElementById('tag-add-row');
-      row.style.display = row.style.display === 'none' ? 'flex' : 'none';
-      if (row.style.display === 'flex') document.getElementById('new-tag-input').focus();
-    }
-
-    function addNewTag() {
-      const input = document.getElementById('new-tag-input');
-      const name = input.value.trim();
-      if (!name) return;
-      const id = name.toLowerCase().replace(/\s+/g, '-');
-      const colorIndex = state.tags.length % tagColors.length;
-      state.tags.push({ id, name, color: tagColors[colorIndex] });
-      input.value = '';
-      saveData();
-      renderTagsSelector();
-    }
-
-    function renderTagsSelector() {
-      const container = document.getElementById('task-tags-selector');
-      container.innerHTML = state.tags.map(tag => `
-        <div class="tag-pill" data-tag-id="${tag.id}" style="background-color:${tag.color};color:${getContrastColor(tag.color)};"
-             onclick="toggleTagSelection('${tag.id}')">${tag.name}</div>
-      `).join('');
-    }
-
-    function toggleTagSelection(tagId) {
-      const pill = document.querySelector(`[data-tag-id="${tagId}"]`);
-      pill.classList.toggle('selected');
-    }
-
-    function getSelectedTaskTags() {
-      return Array.from(document.querySelectorAll('#task-tags-selector .tag-pill.selected'))
-        .map(el => el.getAttribute('data-tag-id'));
-    }
-
-    function clearSelectedTags() {
-      document.querySelectorAll('#task-tags-selector .tag-pill').forEach(el => el.classList.remove('selected'));
-    }
-
-    function getContrastColor(hexColor) {
-      const hex = hexColor.replace('#', '');
-      const r = parseInt(hex.substr(0, 2), 16);
-      const g = parseInt(hex.substr(2, 2), 16);
-      const b = parseInt(hex.substr(4, 2), 16);
-      return ((r * 299 + g * 587 + b * 114) / 1000) > 155 ? '#1a365d' : '#ffffff';
-    }
-
-    // ---- CATEGORIES ----
     function showAddCategoryModal() {
       document.getElementById('add-category-modal').classList.add('show');
     }
@@ -1664,6 +1906,7 @@
     function createCategory() {
       const name = document.getElementById('new-category-name').value.trim();
       if (!name) return;
+
       const id = name.toLowerCase().replace(/\s+/g, '-');
       state.categories.push({ id, name, color: selectedCategoryColor });
       saveData();
@@ -1676,13 +1919,13 @@
       showToast('Categoría agregada');
     }
 
-    // ---- CALENDAR ----
     function renderCalendar() {
       const month = state.currentMonth.getMonth();
       const year = state.currentMonth.getFullYear();
       const firstDay = new Date(year, month, 1);
       const lastDay = new Date(year, month + 1, 0);
       const daysInMonth = lastDay.getDate();
+      const startingDayOfWeek = firstDay.getDay();
 
       document.getElementById('calendar-month-year').textContent =
         state.currentMonth.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
@@ -1691,8 +1934,7 @@
       let html = '<div class="calendar-day-header">Lun</div><div class="calendar-day-header">Mar</div><div class="calendar-day-header">Mié</div>';
       html += '<div class="calendar-day-header">Jue</div><div class="calendar-day-header">Vie</div><div class="calendar-day-header">Sáb</div><div class="calendar-day-header">Dom</div>';
 
-      let startDay = firstDay.getDay();
-      let adjustedStartDay = startDay === 0 ? 6 : startDay - 1;
+      let adjustedStartDay = startingDayOfWeek === 0 ? 6 : startingDayOfWeek - 1;
 
       for (let i = 0; i < adjustedStartDay; i++) {
         html += '<div class="calendar-day other-month"></div>';
@@ -1702,10 +1944,12 @@
       for (let day = 1; day <= daysInMonth; day++) {
         const dateStr = year + '-' + String(month + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
         const hasTasks = state.tasks.some(t => t.date === dateStr);
+        const isToday = dateStr === today;
         const isSelected = dateStr === state.selectedDay;
+
         html += `<div class="calendar-day ${isSelected ? 'selected' : ''} ${hasTasks ? 'task-indicator' : ''}"
-                     onclick="selectCalendarDay('${dateStr}')"
-                     oncontextmenu="showContextMenu(event, '${dateStr}')">${day}</div>`;
+                      onclick="selectCalendarDay('${dateStr}')"
+                      oncontextmenu="showContextMenu(event, '${dateStr}')">${day}</div>`;
       }
 
       grid.innerHTML = html;
@@ -1714,14 +1958,11 @@
     function showContextMenu(event, dateStr) {
       event.preventDefault();
       closeContextMenu();
+
       const menu = document.createElement('div');
       menu.className = 'context-menu';
-
-      // Ensure it stays on screen
-      const x = Math.min(event.clientX, window.innerWidth - 340);
-      const y = Math.min(event.clientY, window.innerHeight - 320);
-      menu.style.top = y + 'px';
-      menu.style.left = x + 'px';
+      menu.style.top = event.clientY + 'px';
+      menu.style.left = event.clientX + 'px';
       menu.innerHTML = `
         <div class="context-menu-title">Nueva Tarea</div>
         <div class="context-menu-form">
@@ -1747,12 +1988,16 @@
               <option value="alta">Alta</option>
             </select>
           </div>
-          <button class="btn btn-primary" onclick="addTaskFromContextMenu('${dateStr}')" style="width:100%;margin-top:12px;">Agregar</button>
+          <button class="btn btn-primary" onclick="addTaskFromContextMenu('${dateStr}')" style="width: 100%; margin-top: 12px;">Agregar</button>
         </div>
       `;
+
       document.body.appendChild(menu);
       contextMenu = menu;
-      setTimeout(() => document.addEventListener('click', closeContextMenu), 0);
+
+      setTimeout(() => {
+        document.addEventListener('click', closeContextMenu);
+      }, 0);
     }
 
     function closeContextMenu() {
@@ -1768,13 +2013,29 @@
       const time = document.querySelector('.context-task-time').value;
       const category = document.querySelector('.context-task-category').value;
       const priority = document.querySelector('.context-task-priority').value;
-      if (!title) { showToast('Ingrese un título para la tarea'); return; }
+
+      if (!title) {
+        showToast('Ingrese un título para la tarea');
+        return;
+      }
+
       const task = {
-        id: Date.now(), title, date: dateStr, time, category, priority,
-        importance: 'important', urgency: 'urgent', isImprevista: false, status: 'pending',
-        tags: [], attachments: [], reminder: { enabled: false, time: '08:00' },
+        id: Date.now(),
+        title,
+        date: dateStr,
+        time,
+        category,
+        priority,
+        importance: 'important',
+        urgency: 'urgent',
+        isImprevista: false,
+        status: 'pending',
+        tags: [],
+        attachments: [],
+        reminder: { enabled: false, time: '08:00' },
         createdAt: new Date().toISOString()
       };
+
       state.tasks.push(task);
       saveData();
       closeContextMenu();
@@ -1788,13 +2049,26 @@
       const time = document.getElementById('cal-task-time').value;
       const category = document.getElementById('cal-task-category').value;
       const priority = document.getElementById('cal-task-priority').value;
+
       if (!title || !state.selectedDay) return;
+
       const task = {
-        id: Date.now(), title, date: state.selectedDay, time, category, priority,
-        importance: 'important', urgency: 'urgent', isImprevista: false, status: 'pending',
-        tags: [], attachments: [], reminder: { enabled: false, time: '08:00' },
+        id: Date.now(),
+        title,
+        date: state.selectedDay,
+        time,
+        category,
+        priority,
+        importance: 'important',
+        urgency: 'urgent',
+        isImprevista: false,
+        status: 'pending',
+        tags: [],
+        attachments: [],
+        reminder: { enabled: false, time: '08:00' },
         createdAt: new Date().toISOString()
       };
+
       state.tasks.push(task);
       document.getElementById('cal-task-title').value = '';
       document.getElementById('cal-task-time').value = '09:00';
@@ -1811,8 +2085,11 @@
       const tasksList = document.getElementById('day-tasks-list');
       const title = document.getElementById('day-tasks-title');
 
+      // Populate quick-add category select
       const calCatSelect = document.getElementById('cal-task-category');
-      calCatSelect.innerHTML = state.categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+      calCatSelect.innerHTML = state.categories.map(c =>
+        `<option value="${c.id}">${c.name}</option>`
+      ).join('');
 
       const date = parseDateString(dateStr);
       title.textContent = date.toLocaleDateString('es-ES', { weekday: 'long', month: 'long', day: 'numeric' });
@@ -1831,7 +2108,13 @@
                 ${task.attachments && task.attachments.length > 0 ? `<span>📎 ${task.attachments.length}</span>` : ''}
               </div>
               ${renderTagPills(task.tags)}
-              ${renderAttachmentsForTask(task)}
+              ${task.attachments && task.attachments.length > 0 ? `
+                <div class="attachments-section">
+                  <div class="attachments-list">
+                    ${task.attachments.map(att => `<div class="attachment-item" onclick="openAttachment('${att.path.replace(/\\/g, '\\\\')}')">📄 ${escapeHtml(att.name)}</div>`).join('')}
+                  </div>
+                </div>
+              ` : ''}
             </div>
             <div class="task-card-right">
               <select class="task-status-select" onchange="updateTaskStatus(${task.id}, this.value)">
@@ -1860,7 +2143,6 @@
       renderCalendar();
     }
 
-    // ---- KANBAN ----
     function renderKanban() {
       const columns = [
         { status: 'backlog', title: 'Backlog' },
@@ -1868,27 +2150,29 @@
         { status: 'in-progress', title: 'En progreso' },
         { status: 'completed', title: 'Completada' }
       ];
+
       let html = '';
       columns.forEach(col => {
         const tasks = state.tasks.filter(t => t.status === col.status);
-        html += `<div class="kanban-column" ondrop="dropTask(event,'${col.status}')" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">
-          <div class="kanban-column-header">${col.title}</div>
-          <div class="kanban-column-count">${tasks.length}</div>
-          <div class="kanban-cards">
-            ${tasks.map(task => `
-              <div class="kanban-card" draggable="true" ondragstart="dragTask(event,${task.id})">
-                <div class="kanban-card-title">${renderReminderIndicator(task)}${escapeHtml(task.title)}</div>
-                <div class="kanban-card-meta">
-                  <span class="badge badge-category">${getCategoryName(task.category)}</span>
-                  <span class="badge badge-priority-${task.priority}">${task.priority}</span>
-                  ${task.attachments && task.attachments.length > 0 ? `<span style="font-size:11px;">📎 ${task.attachments.length}</span>` : ''}
-                  <span style="color:#64748b;font-size:11px;margin-left:auto;">${task.date}</span>
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        </div>`;
+        html += `<div class="kanban-column" ondrop="dropTask(event, '${col.status}')" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">
+                  <div class="kanban-column-header">${col.title}</div>
+                  <div class="kanban-column-count">${tasks.length}</div>
+                  <div class="kanban-cards">
+                    ${tasks.map(task => `
+                      <div class="kanban-card" draggable="true" ondragstart="dragTask(event, ${task.id})">
+                        <div class="kanban-card-title">${renderReminderIndicator(task)}${escapeHtml(task.title)}</div>
+                        <div class="kanban-card-meta">
+                          <span class="badge badge-category">${getCategoryName(task.category)}</span>
+                          <span class="badge badge-priority-${task.priority}">${task.priority}</span>
+                          ${task.attachments && task.attachments.length > 0 ? `<span style="font-size: 11px;">📎 ${task.attachments.length}</span>` : ''}
+                          <span style="color: #64748b; font-size: 11px; margin-left: auto;">${task.date}</span>
+                        </div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>`;
       });
+
       document.getElementById('kanban-container').innerHTML = html;
     }
 
@@ -1904,7 +2188,9 @@
     }
 
     function dragLeave(event) {
-      if (event.target.classList.contains('kanban-column')) event.target.classList.remove('drag-over');
+      if (event.target.classList.contains('kanban-column')) {
+        event.target.classList.remove('drag-over');
+      }
     }
 
     function dropTask(event, status) {
@@ -1912,44 +2198,74 @@
       event.currentTarget.classList.remove('drag-over');
       if (state.draggedTask) {
         const task = state.tasks.find(t => t.id === state.draggedTask);
-        if (task) { task.status = status; saveData(); renderKanban(); }
+        if (task) {
+          task.status = status;
+          saveData();
+          renderKanban();
+        }
         state.draggedTask = null;
       }
     }
 
-    // ---- EISENHOWER ----
     function renderEisenhower() {
       const quadrants = [
-        { title: 'Hacer primero', subtitle: 'Urgente e importante', filter: t => t.urgency === 'urgent' && t.importance === 'important', class: 'urgent-important' },
-        { title: 'Planificar', subtitle: 'Importante pero no urgente', filter: t => t.urgency !== 'urgent' && t.importance === 'important', class: 'important' },
-        { title: 'Delegar', subtitle: 'Urgente pero no importante', filter: t => t.urgency === 'urgent' && t.importance !== 'important', class: 'urgent' },
-        { title: 'Eliminar', subtitle: 'Ni urgente ni importante', filter: t => t.urgency !== 'urgent' && t.importance !== 'important', class: 'neither' }
+        {
+          id: 'urgent-important',
+          title: 'Hacer primero',
+          subtitle: 'Urgente e importante',
+          filter: t => t.urgency === 'urgent' && t.importance === 'important',
+          class: 'urgent-important'
+        },
+        {
+          id: 'important',
+          title: 'Planificar',
+          subtitle: 'Importante pero no urgente',
+          filter: t => t.urgency !== 'urgent' && t.importance === 'important',
+          class: 'important'
+        },
+        {
+          id: 'urgent',
+          title: 'Delegar',
+          subtitle: 'Urgente pero no importante',
+          filter: t => t.urgency === 'urgent' && t.importance !== 'important',
+          class: 'urgent'
+        },
+        {
+          id: 'neither',
+          title: 'Eliminar',
+          subtitle: 'Ni urgente ni importante',
+          filter: t => t.urgency !== 'urgent' && t.importance !== 'important',
+          class: 'neither'
+        }
       ];
+
       let html = '';
       quadrants.forEach(quad => {
         const tasks = state.tasks.filter(quad.filter);
         html += `<div class="eisenhower-quadrant ${quad.class}">
-          <div class="eisenhower-title">${quad.title}</div>
-          <div class="eisenhower-subtitle">${quad.subtitle}</div>
-          <div class="eisenhower-tasks">
-            ${tasks.map(task => `
-              <div class="eisenhower-task">
-                <div class="eisenhower-task-title">${renderReminderIndicator(task)}${escapeHtml(task.title)}</div>
-                <div class="eisenhower-task-meta">
-                  <span class="badge badge-category" style="margin-right:4px;">${getCategoryName(task.category)}</span>
-                  <span class="badge badge-priority-${task.priority}">${task.priority}</span>
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        </div>`;
+                  <div class="eisenhower-title">${quad.title}</div>
+                  <div class="eisenhower-subtitle">${quad.subtitle}</div>
+                  <div class="eisenhower-tasks">
+                    ${tasks.map(task => `
+                      <div class="eisenhower-task">
+                        <div class="eisenhower-task-title">${renderReminderIndicator(task)}${escapeHtml(task.title)}</div>
+                        <div class="eisenhower-task-meta">
+                          <span class="badge badge-category" style="margin-right: 4px;">${getCategoryName(task.category)}</span>
+                          <span class="badge badge-priority-${task.priority}">${task.priority}</span>
+                          ${task.attachments && task.attachments.length > 0 ? `<span style="font-size: 11px;">📎 ${task.attachments.length}</span>` : ''}
+                        </div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>`;
       });
+
       document.getElementById('eisenhower-grid').innerHTML = html;
     }
 
-    // ---- POMODORO ----
     function toggleTimer() {
       const btn = document.getElementById('timer-start');
+
       if (state.timer.isRunning) {
         clearInterval(state.timer.interval);
         state.timer.isRunning = false;
@@ -1957,9 +2273,13 @@
       } else {
         state.timer.isRunning = true;
         btn.textContent = 'Pausar';
+
         state.timer.interval = setInterval(() => {
           if (state.timer.seconds === 0) {
-            if (state.timer.minutes === 0) { timerComplete(); return; }
+            if (state.timer.minutes === 0) {
+              timerComplete();
+              return;
+            }
             state.timer.minutes--;
             state.timer.seconds = 59;
           } else {
@@ -1973,7 +2293,8 @@
     function resetTimer() {
       clearInterval(state.timer.interval);
       state.timer.isRunning = false;
-      state.timer.minutes = 25; state.timer.seconds = 0;
+      state.timer.minutes = 25;
+      state.timer.seconds = 0;
       state.timer.mode = 'Concentración';
       document.getElementById('timer-start').textContent = 'Iniciar';
       updateTimerDisplay();
@@ -1982,30 +2303,38 @@
     function setTimerPreset(minutes, mode) {
       clearInterval(state.timer.interval);
       state.timer.isRunning = false;
-      state.timer.minutes = minutes; state.timer.seconds = 0; state.timer.mode = mode;
+      state.timer.minutes = minutes;
+      state.timer.seconds = 0;
+      state.timer.mode = mode;
       document.getElementById('timer-start').textContent = 'Iniciar';
       updateTimerDisplay();
     }
 
     function updateTimerDisplay() {
-      document.getElementById('timer-display').textContent =
-        String(state.timer.minutes).padStart(2, '0') + ':' + String(state.timer.seconds).padStart(2, '0');
+      const display = document.getElementById('timer-display');
+      const mins = String(state.timer.minutes).padStart(2, '0');
+      const secs = String(state.timer.seconds).padStart(2, '0');
+      display.textContent = `${mins}:${secs}`;
       const badge = document.getElementById('timer-mode');
       badge.textContent = `Modo ${state.timer.mode}`;
-      badge.classList.toggle('break', state.timer.mode.includes('Descanso'));
+      const isBreak = state.timer.mode.includes('Descanso');
+      badge.classList.toggle('break', isBreak);
     }
 
     function timerComplete() {
       clearInterval(state.timer.interval);
       state.timer.isRunning = false;
       document.getElementById('timer-start').textContent = 'Iniciar';
+
       if (state.timer.mode === 'Concentración' || state.timer.mode === 'Sesión Larga') {
         state.stats.pomodoros++;
-        saveData(); renderStats();
+        saveData();
+        renderStats();
         showNotification('Pomodoro Completado', 'Excelente trabajo. Tomate un descanso.');
       } else {
         showNotification('Descanso Completado', 'Listo para la siguiente sesión.');
       }
+
       resetTimer();
     }
 
@@ -2014,14 +2343,13 @@
       document.getElementById('pomodoro-count').textContent = state.stats.pomodoros;
     }
 
-    // ---- EMAIL (uses fetch instead of https.request) ----
     function saveApiKey() {
       state.apiKey = document.getElementById('api-key-input').value;
       saveData();
       showToast('Clave de API guardada');
     }
 
-    async function generateEmail() {
+    function generateEmail() {
       const to = document.getElementById('email-to').value.trim();
       const subject = document.getElementById('email-subject').value.trim();
       const description = document.getElementById('email-description').value.trim();
@@ -2031,45 +2359,65 @@
         return;
       }
 
-      const btn = document.getElementById('generate-btn');
-      btn.disabled = true;
-      btn.textContent = 'Generando...';
+      document.getElementById('generate-btn').disabled = true;
+      document.getElementById('generate-btn').textContent = 'Generando...';
 
       const prompt = `Genera un email profesional para enviar a ${to} con el siguiente asunto: "${subject}".
 Contexto: ${description}
 El email debe ser profesional, breve y en español.`;
 
-      try {
-        const response = await fetch('https://api.anthropic.com/v1/messages', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': state.apiKey,
-            'anthropic-version': '2023-06-01',
-            'anthropic-dangerous-direct-browser-access': 'true'
-          },
-          body: JSON.stringify({
-            model: 'claude-3-5-sonnet-20241022',
-            max_tokens: 500,
-            messages: [{ role: 'user', content: prompt }]
-          })
-        });
+      const data = JSON.stringify({
+        model: 'claude-3-5-sonnet-20241022',
+        max_tokens: 500,
+        messages: [{ role: 'user', content: prompt }]
+      });
 
-        const data = await response.json();
-        if (data.content && data.content[0]) {
-          state.currentEmail = { to, subject, body: data.content[0].text };
-          document.getElementById('email-preview').textContent = data.content[0].text;
-          document.getElementById('preview-card').style.display = 'block';
-          showToast('Email generado');
-        } else {
-          showToast('Error: ' + (data.error?.message || 'Respuesta inválida'));
+      const options = {
+        hostname: 'api.anthropic.com',
+        port: 443,
+        path: '/v1/messages',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': data.length,
+          'x-api-key': state.apiKey,
+          'anthropic-version': '2023-06-01'
         }
-      } catch (err) {
-        showToast('Error: ' + err.message);
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Generar con IA';
-      }
+      };
+
+      const req = https.request(options, (res) => {
+        let body = '';
+        res.on('data', chunk => body += chunk);
+        res.on('end', () => {
+          document.getElementById('generate-btn').disabled = false;
+          document.getElementById('generate-btn').textContent = 'Generar con IA';
+
+          try {
+            const response = JSON.parse(body);
+            if (response.content && response.content[0]) {
+              state.currentEmail = {
+                to,
+                subject,
+                body: response.content[0].text
+              };
+              document.getElementById('email-preview').textContent = response.content[0].text;
+              document.getElementById('preview-card').style.display = 'block';
+              showToast('Email generado');
+            }
+          } catch (err) {
+            showToast('Error al procesar respuesta');
+          }
+        });
+      });
+
+      req.on('error', (e) => {
+        document.getElementById('generate-btn').disabled = false;
+        document.getElementById('generate-btn').textContent = 'Generar con IA';
+        showToast('Error: ' + e.message);
+      });
+
+      req.write(data);
+      req.end();
     }
 
     function copyEmail() {
@@ -2082,8 +2430,10 @@ El email debe ser profesional, breve y en español.`;
     function saveEmailDraft() {
       if (state.currentEmail) {
         const draft = {
-          id: Date.now(), to: state.currentEmail.to,
-          subject: state.currentEmail.subject, body: state.currentEmail.body,
+          id: Date.now(),
+          to: state.currentEmail.to,
+          subject: state.currentEmail.subject,
+          body: state.currentEmail.body,
           date: new Date().toLocaleDateString('es-ES')
         };
         state.emailDrafts.push(draft);
@@ -2098,11 +2448,13 @@ El email debe ser profesional, breve y en español.`;
         document.getElementById('drafts-section').style.display = 'none';
         return;
       }
+
       document.getElementById('drafts-section').style.display = 'block';
-      document.getElementById('drafts-list').innerHTML = state.emailDrafts.map(draft => `
+      const list = document.getElementById('drafts-list');
+      list.innerHTML = state.emailDrafts.map(draft => `
         <div class="draft-item">
           <div class="draft-meta">
-            <div style="flex:1;">
+            <div style="flex: 1;">
               <div class="draft-to">Para: ${escapeHtml(draft.to)}</div>
               <div class="draft-subject">${escapeHtml(draft.subject)}</div>
             </div>
@@ -2118,29 +2470,24 @@ El email debe ser profesional, breve y en español.`;
       state.emailDrafts = state.emailDrafts.filter(d => d.id !== draftId);
       saveData();
       renderDrafts();
+      showToast('Borrador eliminado');
     }
 
-    // ---- UTILS ----
     function escapeHtml(text) {
-      if (!text) return '';
       const div = document.createElement('div');
       div.textContent = text;
       return div.innerHTML;
     }
 
-    // ---- EVENT LISTENERS ----
+    // Event listener for reminder checkbox
     document.addEventListener('change', function(e) {
       if (e.target.id === 'task-reminder-enabled') {
-        document.getElementById('task-reminder-time').style.display = e.target.checked ? 'block' : 'none';
+        const timeInput = document.getElementById('task-reminder-time');
+        timeInput.style.display = e.target.checked ? 'block' : 'none';
       }
     });
 
-    // Allow adding task with Enter key
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' && e.target.id === 'task-title') addTask();
-    });
-
-    // ---- INITIALIZATION ----
+    // INITIALIZATION
     loadData();
     renderCategoryButtons();
     renderTagsSelector();
@@ -2153,27 +2500,30 @@ El email debe ser profesional, breve y en español.`;
     updateTimerDisplay();
     renderStats();
     renderDrafts();
-    renderTasks();
 
-    // Request notification permission
+    // REQUEST NOTIFICATION PERMISSION
     if ('Notification' in window && Notification.permission === 'default') {
       Notification.requestPermission();
     }
 
-    // Auto-save every 30 seconds
-    setInterval(saveData, 30000);
+    // AUTO-SAVE EVERY 30 SECONDS
+    setInterval(() => {
+      saveData();
+    }, 30000);
 
-    // Notification check every minute
+    // NOTIFICATION CHECK EVERY MINUTE
     setInterval(() => {
       const now = new Date();
       const today = getToday();
       const currentTime = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+
       state.tasks.forEach(task => {
         if (task.date === today && task.time === currentTime && task.status !== 'completed') {
           showNotification('Recordatorio de Tarea', `Es hora de: ${task.title}`);
         }
+        // Check daily reminders
         if (task.reminder && task.reminder.enabled && task.reminder.time === currentTime) {
-          showNotification('Recordatorio Diario', task.title);
+          showNotification('Recordatorio Diario', `${task.title}`);
         }
       });
     }, 60000);
